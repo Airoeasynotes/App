@@ -1,0 +1,92 @@
+
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Search </title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <link rel="stylesheet" type="text/css" href="search.css">
+</head>
+<body>
+    <form id="searchForm">
+        <label for="keyword"></label>
+        <input type="text" id="keyword" name="keyword" required>
+        <input type="submit" value="𝕊𝕖𝕒𝕣𝕔𝕙">
+    </form>
+
+    <div id="searchResults"></div>
+
+<script>
+    // Replace 'YOUR_API_KEY' with your actual API key
+    var apiKey = 'AIzaSyDHVAkEv4jeMLbgdcs8ZS0-AVWNEt2bNE0';
+
+    // Replace 'YOUR_BLOG_ID' with your actual Blog ID
+    var blogId = '3747789113579689490';
+
+    // Function to search for posts containing a keyword
+    function searchBlogPosts(keyword) {
+        var apiUrl = `https://www.googleapis.com/blogger/v3/blogs/${blogId}/posts/search?key=${apiKey}&q=${encodeURIComponent(keyword)}`;
+
+        fetch(apiUrl)
+            .then(response => {
+                if (response.ok) {
+                    return response.json();
+                } else {
+                    throw new Error('Failed to fetch search results');
+                }
+            })
+            .then(data => {
+                // Handle the response data
+                var searchResults = document.getElementById('searchResults');
+                searchResults.innerHTML = ''; // Clear previous results
+
+                if (data.items && data.items.length > 0) {
+                    // Sort the results by the presence of the word "prohome/0101"
+                    data.items.sort((a, b) => {
+                        var aHasWord = a.content.includes('prohome/0101');
+                        var bHasWord = b.content.includes('prohome/0101');
+                        if (aHasWord && !bHasWord) {
+                            return -1; // a comes first
+                        } else if (!aHasWord && bHasWord) {
+                            return 1; // b comes first
+                        } else {
+                            return 0; // no change
+                        }
+                    });
+
+                    data.items.forEach(post => {
+                        var postTitle = document.createElement('h2');
+                        postTitle.textContent = post.title;
+
+                        // Create a div to display HTML content as rendered HTML
+                        var postContent = document.createElement('div');
+                        postContent.innerHTML = post.content;
+
+                        // Add a click event listener to the post title
+                        postTitle.addEventListener('click', function () {
+                            // Search for the word that is in the title
+                            var word = post.title.split(' ')[0]; // Get the first word of the title
+                            searchBlogPosts(word);
+                        });
+
+                        searchResults.appendChild(postTitle);
+                        searchResults.appendChild(postContent);
+                    });
+                } else {
+                    searchResults.textContent = 'No matching posts found.';
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+    }
+
+    // Handle form submission
+    document.getElementById('searchForm').addEventListener('submit', function (e) {
+        e.preventDefault();
+        var keyword = document.getElementById('keyword').value;
+        searchBlogPosts(keyword);
+    });
+</script>
+</body>
+</html>

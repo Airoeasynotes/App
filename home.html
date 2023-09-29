@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>home</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <link rel="stylesheet" type="text/css" href="phy.css">
+</head>
+<body>
+    <div id="content">
+        <h1>𝔸𝕚𝕣𝕠</h1>
+        <p></p>
+    </div>
+    <div id="searchResults"></div>
+ 
+    <button id="loadMoreButton" style="display: none;">Load More</button>
+
+    <div id="bottom-navigation">
+        <a href="home.html">
+            <img class="icon" src="icon/home.png" alt="Home">
+            ℍ𝕠𝕞𝕖
+        </a>
+        <a href="search.html">
+            <img class="icon" src="icon/search.png" alt="Search">
+            𝕊𝕖𝕒𝕣𝕔𝕙
+        </a>
+        <a href="library.html">
+            <img class="icon" src="icon/library.png" alt="library">
+            𝕃𝕚𝕓𝕣𝕒𝕣𝕪
+        </a>
+        <a href="profile.html">
+            <img class="icon" src="icon/profile.png" alt="profile">
+            ℙ𝕣𝕠𝕗𝕚𝕝𝕖 
+        </a>
+    </div>
+
+    <script>
+// Variables for API key, Blog ID
+        var apiKey = 'AIzaSyDHVAkEv4jeMLbgdcs8ZS0-AVWNEt2bNE0'; // Replace with your API key
+        var blogId = '3747789113579689490'; // Replace with your Blog ID
+
+        // Function to search for posts containing a keyword
+        function searchBlogPosts(keyword) {
+            var apiUrl = `https://www.googleapis.com/blogger/v3/blogs/${blogId}/posts/search?key=${apiKey}&q=${encodeURIComponent(keyword)}`;
+
+            fetch(apiUrl)
+                .then(response => {
+                    if (response.ok) {
+                        return response.json();
+                    } else {
+                        throw new Error('Failed to fetch search results');
+                    }
+                })
+                .then(data => {
+                    // Handle the response data
+                    var searchResults = document.getElementById('searchResults');
+
+                    if (data.items && data.items.length > 0) {
+                        // Sort the results by the presence of the word "prohome/0101"
+                        data.items.sort((a, b) => {
+                            var aHasWord = a.content.includes('prohome/0101');
+                            var bHasWord = b.content.includes('prohome/0101');
+                            if (aHasWord && !bHasWord) {
+                                return -1; // a comes first
+                            } else if (!aHasWord && bHasWord) {
+                                return 1; // b comes first
+                            } else {
+                                return 0; // no change
+                            }
+                        });
+
+                        data.items.forEach(post => {
+                            var postTitle = document.createElement('h2');
+                            postTitle.textContent = post.title;
+
+                            // Create a div to display HTML content as rendered HTML
+                            var postContent = document.createElement('div');
+                            postContent.innerHTML = post.content;
+
+                            searchResults.appendChild(postTitle);
+                            searchResults.appendChild(postContent);
+                        });
+                    } else {
+                        searchResults.textContent = 'No matching posts found.';
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+        }
+
+        // Load the initial set of posts when the page loads
+        window.addEventListener('load', function () {
+            var names = JSON.parse(localStorage.getItem('airoFollowings'));
+
+            if (names && names.length > 0) {
+                names.forEach(name => {
+                    searchBlogPosts(name);
+                });
+            } else {
+                // No names in local storage, display a message
+                var searchResults = document.getElementById('searchResults');
+                searchResults.textContent = 'No followings are found.';
+
+                // If no names found, search for "prohome/0101"
+                searchBlogPosts('prohome/0101');
+            }
+        });
+    </script>
+</body>
+</html>

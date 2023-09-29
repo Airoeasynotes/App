@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Sign Up Page</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <link rel="stylesheet" type="text/css" href="account.css">
+</head>
+<body>
+    <h1>Sign Up</h1>
+    <h3>please use small letters in username to remember username easily</h3>
+    <form id="signupForm">
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" required><br><br>
+
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username" required><br><br>
+        
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" required><br><br>
+
+        <label for="hatedName">Hated Name:</label>
+        <input type="text" id="hatedName" name="hatedName" required><br><br>
+
+        <label for="terms">Agree to <a href="terms.html" target="_blank">Terms and Conditions</a>:</label>
+<input type="checkbox" id="terms" name="terms" required><br><br>
+
+        <button type="button" onclick="signup()">Sign Up</button>
+    </form>
+    <button onclick="switchToLogin()">Login</button>
+    <button onclick="switchToForgotPassword()">Forgot Password</button>
+
+    <script>
+        function signup() {
+            const name = document.getElementById('name').value;
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            const hatedName = document.getElementById('hatedName').value;
+            const agreedToTerms = document.getElementById('terms').checked;
+
+            // Send a GET request to your Google Apps Script web app for signup
+            fetch(`https://script.google.com/macros/s/AKfycbz45yhs3bbv_whQaD3rLEFUanuOS6a-wEACATqTaOHky6fwA8GtoVzN9qNTy8Ju0wN9/exec?action=signup&name=${name}&username=${username}&password=${password}&hatedName=${hatedName}&agreedToTerms=${agreedToTerms}`)
+                .then(response => response.text())
+                .then(data => {
+                    if (data === 'Sign-up successful.') {
+                        // Redirect to the home page upon successful signup
+                        localStorage.setItem('username', username);
+                        window.location.href = 'agree.html';
+                    } else {
+                        alert(data);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('An error occurred while signing up.');
+                });
+        }
+
+        function switchToLogin() {
+            // Redirect to the login page
+            window.location.href = 'login.html'; // Replace 'login.html' with the actual URL of your login page
+        }
+
+        function switchToForgotPassword() {
+            // Redirect to the forgot password page
+            window.location.href = 'forgot_password.html'; // Replace 'forgot_password.html' with the actual URL of your forgot password page
+        }
+    </script>
+</body>
+</html>

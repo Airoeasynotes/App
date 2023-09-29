@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>home</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <link rel="stylesheet" type="text/css" href="phy.css">
+</head>
+<body>
+    <div id="content">
+        <h1>𝕃𝕚𝕓𝕣𝕒𝕣𝕪</h1>
+        <p></p>
+    </div>
+    <div id="searchResults"></div>
+
+    <div id="bottom-navigation">
+        <a href="home.html">
+            <img class="icon" src="icon/home.png" alt="Home">
+            ℍ𝕠𝕞𝕖
+        </a>
+        <a href="search.html">
+            <img class="icon" src="icon/search.png" alt="Search">
+            𝕊𝕖𝕒𝕣𝕔𝕙
+        </a>
+        <a href="library.html">
+            <img class="icon" src="icon/library.png" alt="library">
+            𝕃𝕚𝕓𝕣𝕒𝕣𝕪
+        </a>
+        <a href="profile.html">
+            <img class="icon" src="icon/profile.png" alt="profile">
+            ℙ𝕣𝕠𝕗𝕚𝕝𝕖 
+        </a>
+    </div>
+
+    <script>
+       // Replace 'YOUR_API_KEY' with your actual API key
+var apiKey = 'AIzaSyDHVAkEv4jeMLbgdcs8ZS0-AVWNEt2bNE0';
+
+// Replace 'YOUR_BLOG_ID' with your actual Blog ID
+var blogId = '3747789113579689490';
+
+// Function to search for posts containing 'liofai/0101'
+function searchForLiofai0101() {
+    var apiUrl = `https://www.googleapis.com/blogger/v3/blogs/${blogId}/posts/search?key=${apiKey}&q=liofai/0101`;
+
+    fetch(apiUrl)
+        .then(response => {
+            if (response.ok) {
+                return response.json();
+            } else {
+                throw new Error('Failed to fetch search results');
+            }
+        })
+        .then(data => {
+            // Handle the response data
+            var searchResults = document.getElementById('searchResults');
+            searchResults.innerHTML = ''; // Clear previous results
+
+            if (data.items && data.items.length > 0) {
+                data.items.forEach(post => {
+                    var postTitle = document.createElement('h2');
+                    postTitle.textContent = post.title;
+
+                    // Create a div to display HTML content as rendered HTML
+                    var postContent = document.createElement('div');
+                    postContent.innerHTML = post.content;
+
+                    searchResults.appendChild(postTitle);
+                    searchResults.appendChild(postContent);
+                });
+            } else {
+                searchResults.textContent = 'No matching posts found.';
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+}
+
+// Call the function to search for 'liofai/0101' automatically
+searchForLiofai0101();
+    </script>
+</body>
+</html>
