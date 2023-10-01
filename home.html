@@ -74,10 +74,24 @@
 
                             // Create a div to display HTML content as rendered HTML
                             var postContent = document.createElement('div');
-                            postContent.innerHTML = post.content;
+postContent.innerHTML = post.content;
 
-                            searchResults.appendChild(postTitle);
-                            searchResults.appendChild(postContent);
+// Append the content to searchResults
+searchResults.appendChild(postTitle);
+searchResults.appendChild(postContent);
+
+// Evaluate scripts in the content
+var scripts = postContent.getElementsByTagName('script');
+for (var i = 0; i < scripts.length; i++) {
+    var script = document.createElement('script');
+    script.type = scripts[i].type || 'text/javascript';
+    if (scripts[i].innerHTML) {
+        script.innerHTML = scripts[i].innerHTML;
+    } else if (scripts[i].src) {
+        script.src = scripts[i].src;
+    }
+    document.body.appendChild(script);
+}
                         });
                     } else {
                         searchResults.textContent = 'No matching posts found.';
