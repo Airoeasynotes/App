@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <title>User Dashboard</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
@@ -16,89 +17,123 @@ body {
 
 header {
     background-color: #fff;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-    border-radius: 10px 10px 0 0;
-    padding: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    border-radius: 30px 30px 0 0;
+    padding: 30px;
+    font-size: 36px;
 }
 
 h1 {
     color: #333;
     text-align: left;
-    padding: 10px 0;
+    padding: 30px 0;
+    font-size: 50px;
 }
 
 #username {
     font-weight: bold;
+    font-size: 50px;
 }
 
 button {
-    padding: 10px 20px;
+    padding: 30px 60px;
     background-color: #333;
     color: #fff;
     border: none;
     cursor: pointer;
     margin: 10px;
-    border-radius: 5px;
+    border-radius: 15px;
+    font-size: 36px;
 }
 
 a {
     color: #333;
     text-decoration: none;
-    margin: 10px;
+    margin: 30px;
+    font-size: 30px;
 }
 
 button:hover, a:hover {
     background-color: #555;
+    
 }
 
 nav {
     background-color: #fff;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-    border-radius: 0 0 10px 10px;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+    border-radius: 0 0 20px 20px;
+    font-size: 30px;
 }
 
 nav ul {
     list-style: none;
-    padding: 10px;
+    padding: 30px;
 }
 
 nav ul li {
     display: inline;
-    margin-right: 10px;
+    margin-right: 20px;
+    
 }
 
 #footer {
     text-align: center;
-    margin-top: 20px;
-    padding: 10px;
+    margin-top: 60px;
+    padding: 30px;
     background-color: #fff;
-    box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.2);
-    border-radius: 0 0 10px 10px;
+    box-shadow: 0 -6px 12px rgba(0, 0, 0, 0.2);
+    border-radius: 0 0 30px 30px;
+    font-size: 50px;
 }
 
 #footer a {
-    margin: 0 10px;
+    margin: 0 30px;
+ font-size: 50px;   
 }
-        </style>
+        #developersList {
+            display: none; 
+            list-style: none;
+            padding: 10px;
+            background-color: #fff;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+            font-size: 24px;
+            position: absolute;
+            margin-top: 30px;
+        }
+
+        #developersList li {
+            margin-bottom: 10px;
+        }
+    </style>
 </head>
+
 <body>
     <header>
         <h1>𝕎𝕖𝕝𝕔𝕠𝕞𝕖, <span id="username"></span></h1>
         <button id="logout">Logout</button>
-    </header>
 
-    <nav>
-        <ul>
-            <li><a href="terms.html">Terms and Conditions</a></li>
-            <li><a href="about.html">About Us</a></li>
-        </ul>
-    </nav>
+        <nav>
+            <ul>
+                <li><a href="terms.html">Terms and Conditions</a></li>
+                <li id="aboutLink"><a href="about.html">About Us</a></li>
+                <li id="developersLink">Developers</li>
+                <ul id="developersList">
+                    <li>hema teja (Surya),</li>
+                    <li>sriya (anu),</li>
+                    <li>divya,</li>
+                    <li>nikhil,</li>
+                    <li>team</li>
+                    <li>𝔹𝕪 𝕒𝕚𝕣𝕞𝕖 𝕠𝕣𝕘𝕒𝕟𝕚𝕫𝕒𝕥𝕚𝕠𝕟 </li>
+                </ul>
+            </ul>
+        </nav>
+    </header>
 
     <section id="teams">
     </section>
 
     <section id="conditions">
-     
     </section>
 
     <section id="aboutus">
@@ -109,43 +144,8 @@ nav ul li {
     </footer>
 
     <script>
-        // Check if the username is stored in localStorage
-const storedUsername = localStorage.getItem("username");
-if (storedUsername) {
-    document.getElementById("username").textContent = storedUsername;
-} else {
-    // Redirect to the login page
-    window.location.href = "login.html"; // Replace "login.html" with the actual login page URL
-}
-
-// Logout button click event
-document.getElementById("logout").addEventListener("click", function() {
-    const confirmLogout = confirm("If you logout, our other sites and apps may also be automatically logged out. Note that your following pages will still be visible if you log in with another account. Are you sure you want to logout?");
-    
-    if (confirmLogout) {
-        // Clear the username from localStorage
-        localStorage.removeItem("username");
-
-        // Redirect to the login page after logout
-        window.location.href = "login.html"; // Replace "login.html" with the actual login page URL
-    }
-});
-
-// Terms and Conditions link click event
-document.querySelector("nav a[href='terms.html']").addEventListener("click", function() {
-    // Redirect to the terms and conditions page
-    window.location.href = "terms.html";
-});
-
-// About Us link click event
-document.querySelector("nav a[href='about.html']").addEventListener("click", function() {
-    // Redirect to the About Us page
-    window.location.href = "about.html";
-});
-
-// Update the copyright year dynamically
-const currentYear = new Date().getFullYear();
-document.getElementById("copyrightYear").textContent = currentYear;
+const _0x3db12a=_0x8eab;(function(_0x384a51,_0x365893){const _0x44338b=_0x8eab,_0x96ac22=_0x384a51();while(!![]){try{const _0x317cd3=parseInt(_0x44338b(0xdc))/0x1+-parseInt(_0x44338b(0xd8))/0x2*(-parseInt(_0x44338b(0xe8))/0x3)+parseInt(_0x44338b(0xe2))/0x4*(parseInt(_0x44338b(0xd7))/0x5)+parseInt(_0x44338b(0xe9))/0x6*(parseInt(_0x44338b(0xe3))/0x7)+-parseInt(_0x44338b(0xdf))/0x8+parseInt(_0x44338b(0xed))/0x9+parseInt(_0x44338b(0xd2))/0xa*(-parseInt(_0x44338b(0xdd))/0xb);if(_0x317cd3===_0x365893)break;else _0x96ac22['push'](_0x96ac22['shift']());}catch(_0x293b20){_0x96ac22['push'](_0x96ac22['shift']());}}}(_0x1569,0xc2fc8));const storedUsername=localStorage[_0x3db12a(0xe4)](_0x3db12a(0xdb));function _0x8eab(_0x181a2e,_0xc6d1ee){const _0x156909=_0x1569();return _0x8eab=function(_0x8eab5c,_0x280207){_0x8eab5c=_0x8eab5c-0xd0;let _0xfc4c41=_0x156909[_0x8eab5c];return _0xfc4c41;},_0x8eab(_0x181a2e,_0xc6d1ee);}storedUsername?document[_0x3db12a(0xd4)](_0x3db12a(0xdb))['textContent']=storedUsername:window[_0x3db12a(0xd6)]['href']='login.html';document['getElementById']('logout')[_0x3db12a(0xea)](_0x3db12a(0xd1),function(){const _0x2cce46=_0x3db12a,_0x23c39a=confirm(_0x2cce46(0xde));_0x23c39a&&(localStorage[_0x2cce46(0xe6)](_0x2cce46(0xdb)),window[_0x2cce46(0xd6)]['href']=_0x2cce46(0xd0));}),document[_0x3db12a(0xec)](_0x3db12a(0xe0))[_0x3db12a(0xea)](_0x3db12a(0xd1),function(){const _0x4aaf4b=_0x3db12a;window[_0x4aaf4b(0xd6)][_0x4aaf4b(0xe1)]=_0x4aaf4b(0xda);}),document[_0x3db12a(0xec)]('nav\x20a[href=\x27about.html\x27]')[_0x3db12a(0xea)](_0x3db12a(0xd1),function(){const _0x1cda50=_0x3db12a;window[_0x1cda50(0xd6)]['href']=_0x1cda50(0xe5);});const developersList=document[_0x3db12a(0xd4)](_0x3db12a(0xe7));document[_0x3db12a(0xd4)]('developersLink')[_0x3db12a(0xea)]('click',function(){const _0x46c412=_0x3db12a;developersList[_0x46c412(0xd3)][_0x46c412(0xeb)]=developersList[_0x46c412(0xd3)][_0x46c412(0xeb)]===_0x46c412(0xd9)||developersList[_0x46c412(0xd3)][_0x46c412(0xeb)]===''?'block':'none';});const currentYear=new Date()[_0x3db12a(0xd5)]();function _0x1569(){const _0x1d0f8f=['none','terms.html','username','305514gkgLrq','13903153sXCJai','If\x20you\x20logout,\x20our\x20other\x20sites\x20and\x20apps\x20may\x20also\x20be\x20automatically\x20logged\x20out.\x20Note\x20that\x20your\x20following\x20pages\x20will\x20still\x20be\x20visible\x20if\x20you\x20log\x20in\x20with\x20another\x20account.\x20Are\x20you\x20sure\x20you\x20want\x20to\x20logout?','5394608VvdEJI','nav\x20a[href=\x27terms.html\x27]','href','36LZapgP','7iPPQbg','getItem','about.html','removeItem','developersList','318JfzmCc','2747058SJDyQc','addEventListener','display','querySelector','10206729HFlUJK','login.html','click','10rGgQzf','style','getElementById','getFullYear','location','315325MOqcXC','5130wKugHJ'];_0x1569=function(){return _0x1d0f8f;};return _0x1569();}document[_0x3db12a(0xd4)]('copyrightYear')['textContent']=currentYear;
     </script>
 </body>
+
 </html>
