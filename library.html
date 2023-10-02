@@ -33,56 +33,70 @@
 
     <script>
    // Replace 'YOUR_API_KEY' with your actual API key
-var apiKey = 'AIzaSyDHVAkEv4jeMLbgdcs8ZS0-AVWNEt2bNE0';
+        var apiKey = 'AIzaSyDHVAkEv4jeMLbgdcs8ZS0-AVWNEt2bNE0';
 
-// Replace 'YOUR_BLOG_ID' with your actual Blog ID
-var blogId = '3747789113579689490';
+        // Replace 'YOUR_BLOG_ID' with your actual Blog ID
+        var blogId = '3747789113579689490';
 
-// Function to search for posts containing a specific word
-function searchForWord(word) {
-    var apiUrl = `https://www.googleapis.com/blogger/v3/blogs/${blogId}/posts/search?key=${apiKey}&q=${word}`;
+        // Function to search for posts containing a specific word
+        function searchForWord(word) {
+            var apiUrl = `https://www.googleapis.com/blogger/v3/blogs/${blogId}/posts/search?key=${apiKey}&q=${word}`;
 
-    fetch(apiUrl)
-        .then(response => {
-            if (response.ok) {
-                return response.json();
-            } else {
-                throw new Error('Failed to fetch search results');
-            }
-        })
-        .then(data => {
-            // Handle the response data
-            var searchResults = document.getElementById('searchResults');
-            searchResults.innerHTML = ''; // Clear previous results
+            fetch(apiUrl)
+                .then(response => {
+                    if (response.ok) {
+                        return response.json();
+                    } else {
+                        throw new Error('Failed to fetch search results');
+                    }
+                })
+                .then(data => {
+                    // Handle the response data
+                    var searchResults = document.getElementById('searchResults');
+                    searchResults.innerHTML = ''; // Clear previous results
 
-            if (data.items && data.items.length > 0) {
-                data.items.forEach(post => {
-                    var postTitle = document.createElement('h2');
-                    postTitle.textContent = post.title;
+                    if (data.items && data.items.length > 0) {
+                        data.items.forEach(post => {
+                            var postTitle = document.createElement('h2');
+                            postTitle.textContent = post.title;
 
-                    // Add click event to the post title
-                    postTitle.addEventListener('click', function () {
-                        searchForWord(post.title); // Search for the word in the clicked title
-                    });
+                            // Add click event to the post title
+                            postTitle.addEventListener('click', function () {
+                                searchForWord(post.title); // Search for the word in the clicked title
+                            });
 
-                    // Create a div to display HTML content as rendered HTML
-                    var postContent = document.createElement('div');
-                    postContent.innerHTML = post.content;
+                            // Create a div to display HTML content as rendered HTML
+                            var postContent = document.createElement('div');
+                            postContent.innerHTML = post.content;
 
-                    searchResults.appendChild(postTitle);
-                    searchResults.appendChild(postContent);
+                            // Append the content to searchResults
+                            searchResults.appendChild(postTitle);
+                            searchResults.appendChild(postContent);
+
+                            // Evaluate scripts in the content
+                            var scripts = postContent.getElementsByTagName('script');
+                            for (var i = 0; i < scripts.length; i++) {
+                                var script = document.createElement('script');
+                                script.type = scripts[i].type || 'text/javascript';
+                                if (scripts[i].innerHTML) {
+                                    script.innerHTML = scripts[i].innerHTML;
+                                } else if (scripts[i].src) {
+                                    script.src = scripts[i].src;
+                                }
+                                document.body.appendChild(script);
+                            }
+                        });
+                    } else {
+                        searchResults.textContent = 'No matching posts found.';
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
                 });
-            } else {
-                searchResults.textContent = 'No matching posts found.';
-            }
-        })
-        .catch(error => {
-            console.error('Error:', error);
-        });
-}
+        }
 
-// Call the function to search for 'liofai/0101' automatically
-searchForWord('liofai/0101');
+        // Call the function to search for 'liofai/0101' automatically
+        searchForWord('liofai/0101');
     </script>
 </body>
 </html>
