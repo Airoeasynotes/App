@@ -29,6 +29,9 @@ input[type="password"] {
     border: 1px solid #ccc;
     border-radius: 8px;
 }
+input[type="text"]:focus {
+    outline: none;
+}
 
 label {
     display: block;
